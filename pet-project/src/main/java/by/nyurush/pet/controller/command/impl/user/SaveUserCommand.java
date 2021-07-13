@@ -11,7 +11,7 @@ import java.io.IOException;
 
 import static by.nyurush.pet.factory.BeanFactory.getUserService;
 
-public class AddUserCommand implements Command {
+public class SaveUserCommand implements Command {
 
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) {
@@ -25,9 +25,9 @@ public class AddUserCommand implements Command {
                 user.setId(Long.parseLong(id));
             }
 
-            getUserService().save(user);
+            sendAsJson(resp, getUserService().save(user));
         } catch (IOException e) {
-            throw new RuntimeException();
+            throw new RuntimeException("Cannot send response.");
         }
     }
 }

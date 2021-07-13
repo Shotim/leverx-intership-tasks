@@ -54,8 +54,8 @@ public class PetServiceImpl implements PetService {
     }
 
     @Override
-    public void save(Pet pet) {
-        petDao.save(pet);
+    public Pet save(Pet pet) {
+        return petDao.save(pet);
     }
 
     @Override

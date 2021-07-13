@@ -10,6 +10,7 @@ import by.nyurush.pet.service.impl.PetServiceImpl;
 import by.nyurush.pet.service.impl.UserServiceImpl;
 
 public class BeanFactory {
+
     private static final UserService userService;
     private static final PetService petService;
 

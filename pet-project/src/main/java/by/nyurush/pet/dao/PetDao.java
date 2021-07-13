@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface PetDao {
-    void save(Pet pet);
+    Pet save(Pet pet);
 
     void delete(Pet pet);
 

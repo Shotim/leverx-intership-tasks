@@ -18,7 +18,7 @@ public interface PetService {
 
     List<Pet> findAllByUser(Long userId);
 
-    void save(Pet pet);
+    Pet save(Pet pet);
 
     void delete(Long id);
 }

@@ -1,5 +1,8 @@
 package by.nyurush.pet.controller;
 
+import by.nyurush.pet.dto.ResponseExceptionDto;
+import com.google.gson.Gson;
+
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -7,7 +10,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-import static java.util.Objects.isNull;
+import static by.nyurush.pet.util.StringConstants.EXC_ATTR;
+import static by.nyurush.pet.util.StringConstants.REQUEST_URI_ATTR;
+import static by.nyurush.pet.util.StringConstants.SERVLET_ATTR;
+import static by.nyurush.pet.util.StringConstants.UNKNOWN;
+import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
 
 @WebServlet("/ErrorHandler")
 public class ErrorHandler extends HttpServlet {
@@ -15,53 +22,7 @@ public class ErrorHandler extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
 
-        RuntimeException exception = (RuntimeException)
-                request.getAttribute("javax.servlet.error.exception");
-        Integer statusCode = (Integer)
-                request.getAttribute("javax.servlet.error.status_code");
-        String servletName = (String)
-                request.getAttribute("javax.servlet.error.servlet_name");
-
-        if (servletName == null) {
-            servletName = "Unknown";
-        }
-        String requestUri = (String)
-                request.getAttribute("javax.servlet.error.request_uri");
-
-        if (requestUri == null) {
-            requestUri = "Unknown";
-        }
-
-        response.setContentType("text/html");
-
-        PrintWriter out = response.getWriter();
-        response.setStatus(404);
-
-        String title = "Error/Exception Information";
-        String docType =
-                "<!doctype html public \"-//w3c//dtd html 4.0 " +
-                        "transitional//en\">\n";
-
-        out.println(docType +
-                "<html>\n" +
-                "<head><title>" + title + "</title></head>\n" +
-                "<body bgcolor = \"#f0f0f0\">\n");
-
-        if (isNull(exception) && isNull(statusCode)) {
-            out.println("<h2>Error information is missing</h2>");
-            out.println("Please return to the <a href=\"" +
-                    response.encodeURL("http://localhost:8080/") +
-                    "\">Home Page</a>.");
-        } else {
-            out.println("<h2>Error information</h2>");
-            out.println("Servlet Name : " + servletName + "</br></br>");
-            out.println("Exception Type : " + exception.getClass().getName() + "</br></br>");
-            out.println("The request URI: " + requestUri + "<br><br>");
-            out.println("The exception message: " + exception.getMessage());
-        }
-        out.println("</body>");
-        out.println("</html>");
-
+        getProcess(request, response);
     }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -80,5 +41,34 @@ public class ErrorHandler extends HttpServlet {
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp)
             throws IOException {
         doGet(req, resp);
+    }
+
+    private void getProcess(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        RuntimeException exception = (RuntimeException)
+                request.getAttribute(EXC_ATTR);
+        String servletName = (String)
+                request.getAttribute(SERVLET_ATTR);
+
+        if (servletName == null) {
+            servletName = UNKNOWN;
+        }
+        String requestUri = (String)
+                request.getAttribute(REQUEST_URI_ATTR);
+
+        if (requestUri == null) {
+            requestUri = UNKNOWN;
+        }
+
+        Gson gson = new Gson();
+        PrintWriter out = response.getWriter();
+        response.setStatus(SC_NOT_FOUND);
+
+        ResponseExceptionDto dto = new ResponseExceptionDto();
+        dto.setServletName(servletName);
+        dto.setExceptionType(exception.getClass().getName());
+        dto.setRequestUri(requestUri);
+        dto.setExceptionMessage(exception.getMessage());
+
+        out.print(gson.toJson(dto));
     }
 }

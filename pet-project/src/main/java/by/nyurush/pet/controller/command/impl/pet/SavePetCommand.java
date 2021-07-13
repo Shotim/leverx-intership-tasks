@@ -13,7 +13,7 @@ import java.io.IOException;
 
 import static by.nyurush.pet.factory.BeanFactory.getPetService;
 
-public class AddPetCommand implements Command {
+public class SavePetCommand implements Command {
 
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) {
@@ -30,9 +30,9 @@ public class AddPetCommand implements Command {
                 pet.setId(Long.parseLong(id));
             }
 
-            getPetService().save(pet);
+            sendAsJson(resp, getPetService().save(pet));
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Cannot send response.");
         }
     }
 }

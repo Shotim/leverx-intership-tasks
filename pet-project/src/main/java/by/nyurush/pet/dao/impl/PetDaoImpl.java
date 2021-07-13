@@ -17,16 +17,18 @@ import static by.nyurush.pet.util.HibernateUtil.getSessionFactory;
 public class PetDaoImpl implements PetDao {
 
     @Override
-    public void save(Pet pet) {
+    public Pet save(Pet pet) {
         Transaction transaction = null;
         try (Session session = getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
             session.saveOrUpdate(pet);
             transaction.commit();
+            return pet;
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
+            throw new RuntimeException("Cannot save pet");
         }
     }
 
@@ -41,6 +43,7 @@ public class PetDaoImpl implements PetDao {
             if (transaction != null) {
                 transaction.rollback();
             }
+            throw new RuntimeException("Cannot delete pet");
         }
     }
 
@@ -48,6 +51,8 @@ public class PetDaoImpl implements PetDao {
     public List<Pet> findAll() {
         try (Session session = getSessionFactory().openSession()) {
             return session.createQuery("from Pet", Pet.class).getResultList();
+        } catch (Exception e) {
+            throw new RuntimeException("Cannot find all pets");
         }
     }
 
@@ -56,6 +61,8 @@ public class PetDaoImpl implements PetDao {
         try (Session session = getSessionFactory().openSession()) {
             Pet pet = session.get(Pet.class, id);
             return Optional.ofNullable(pet);
+        } catch (Exception e) {
+            throw new RuntimeException("Cannot find pet by id");
         }
     }
 
@@ -63,6 +70,8 @@ public class PetDaoImpl implements PetDao {
     public List<Cat> findAllCats() {
         try (Session session = getSessionFactory().openSession()) {
             return session.createQuery("from Cat", Cat.class).getResultList();
+        } catch (Exception e) {
+            throw new RuntimeException("Cannot find all cats");
         }
     }
 
@@ -70,6 +79,8 @@ public class PetDaoImpl implements PetDao {
     public List<Dog> findAllDogs() {
         try (Session session = getSessionFactory().openSession()) {
             return session.createQuery("from Dog", Dog.class).getResultList();
+        } catch (Exception e) {
+            throw new RuntimeException("Cannot find all dogs");
         }
     }
 
@@ -82,6 +93,8 @@ public class PetDaoImpl implements PetDao {
             q.setParameter(1, user.getId());
 
             return q.getResultList();
+        } catch (Exception e) {
+            throw new RuntimeException("Cannot find all pets by user");
         }
     }
 }

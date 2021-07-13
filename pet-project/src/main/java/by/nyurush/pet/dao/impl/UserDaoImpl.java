@@ -12,16 +12,18 @@ import java.util.Optional;
 public class UserDaoImpl implements UserDao {
 
     @Override
-    public void save(User user) {
+    public User save(User user) {
         Transaction transaction = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
             session.saveOrUpdate(user);
             transaction.commit();
+            return user;
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
+            throw new RuntimeException("Cannot save user");
         }
     }
 
@@ -36,6 +38,7 @@ public class UserDaoImpl implements UserDao {
             if (transaction != null) {
                 transaction.rollback();
             }
+            throw new RuntimeException("Cannot delete user");
         }
     }
 
@@ -43,6 +46,8 @@ public class UserDaoImpl implements UserDao {
     public List<User> findAll() {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             return session.createQuery("from User", User.class).getResultList();
+        } catch (Exception e) {
+            throw new RuntimeException("Cannot find all users");
         }
     }
 
@@ -51,6 +56,8 @@ public class UserDaoImpl implements UserDao {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             User user = session.get(User.class, id);
             return Optional.ofNullable(user);
+        } catch (Exception e) {
+            throw new RuntimeException("Cannot find user by id");
         }
     }
 

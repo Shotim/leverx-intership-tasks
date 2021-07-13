@@ -1,8 +1,6 @@
 package by.nyurush.pet.controller.command.impl.pet;
 
 import by.nyurush.pet.controller.command.Command;
-import by.nyurush.pet.service.PetService;
-import by.nyurush.pet.service.impl.PetServiceImpl;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
