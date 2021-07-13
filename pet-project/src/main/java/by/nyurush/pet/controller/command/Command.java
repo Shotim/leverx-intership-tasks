@@ -1,6 +1,5 @@
 package by.nyurush.pet.controller.command;
 
-import by.nyurush.pet.util.StringConstants;
 import com.google.gson.Gson;
 
 import javax.servlet.http.HttpServletRequest;

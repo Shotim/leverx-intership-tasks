@@ -2,6 +2,7 @@ package by.nyurush.pet.dao.impl;
 
 import by.nyurush.pet.dao.UserDao;
 import by.nyurush.pet.entity.User;
+import by.nyurush.pet.exception.DaoException;
 import by.nyurush.pet.util.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -23,7 +24,7 @@ public class UserDaoImpl implements UserDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Cannot save user");
+            throw new DaoException("Cannot save user");
         }
     }
 
@@ -38,7 +39,7 @@ public class UserDaoImpl implements UserDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Cannot delete user");
+            throw new DaoException("Cannot delete user");
         }
     }
 
@@ -47,7 +48,7 @@ public class UserDaoImpl implements UserDao {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             return session.createQuery("from User", User.class).getResultList();
         } catch (Exception e) {
-            throw new RuntimeException("Cannot find all users");
+            throw new DaoException("Cannot find all users");
         }
     }
 
@@ -57,7 +58,7 @@ public class UserDaoImpl implements UserDao {
             User user = session.get(User.class, id);
             return Optional.ofNullable(user);
         } catch (Exception e) {
-            throw new RuntimeException("Cannot find user by id");
+            throw new DaoException("Cannot find user by id");
         }
     }
 

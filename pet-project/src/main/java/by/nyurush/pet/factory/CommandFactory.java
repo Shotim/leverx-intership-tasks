@@ -13,10 +13,15 @@ import by.nyurush.pet.controller.command.impl.user.GetAllUsersCommand;
 import by.nyurush.pet.controller.command.impl.user.GetUserByIdCommand;
 import by.nyurush.pet.controller.command.impl.user.SaveUserCommand;
 import by.nyurush.pet.exception.CommandNotFoundException;
-import by.nyurush.pet.util.StringConstants;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import static by.nyurush.pet.util.StringConstants.DELETE;
+import static by.nyurush.pet.util.StringConstants.GET;
+import static by.nyurush.pet.util.StringConstants.POST;
+import static by.nyurush.pet.util.StringConstants.PUT;
 
 public class CommandFactory {
 
@@ -48,10 +53,8 @@ public class CommandFactory {
 
     public static Command getCommand(String commandName) {
         if (commandName.isBlank()
-                || commandName.equals(StringConstants.GET)
-                || commandName.equals(StringConstants.POST)
-                || commandName.equals(StringConstants.PUT)
-                || commandName.equals(StringConstants.DELETE)) {
+                || List.of(GET, POST, PUT, DELETE)
+                .contains(commandName)) {
 
             throw new CommandNotFoundException("Command " + commandName + " not found");
         }

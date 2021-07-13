@@ -43,7 +43,8 @@ public class ErrorHandler extends HttpServlet {
         doGet(req, resp);
     }
 
-    private void getProcess(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    private void getProcess(HttpServletRequest request, HttpServletResponse response)
+            throws IOException {
         RuntimeException exception = (RuntimeException)
                 request.getAttribute(EXC_ATTR);
         String servletName = (String)
