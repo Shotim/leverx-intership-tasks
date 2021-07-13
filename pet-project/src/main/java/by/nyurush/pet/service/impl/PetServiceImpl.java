@@ -2,8 +2,6 @@ package by.nyurush.pet.service.impl;
 
 import by.nyurush.pet.dao.PetDao;
 import by.nyurush.pet.dao.UserDao;
-import by.nyurush.pet.dao.impl.PetDaoImpl;
-import by.nyurush.pet.dao.impl.UserDaoImpl;
 import by.nyurush.pet.entity.Cat;
 import by.nyurush.pet.entity.Dog;
 import by.nyurush.pet.entity.Pet;
@@ -15,8 +13,13 @@ import java.util.List;
 
 public class PetServiceImpl implements PetService {
 
-    private static final PetDao petDao = new PetDaoImpl();
-    private static final UserDao userDao = new UserDaoImpl();
+    private final PetDao petDao;
+    private final UserDao userDao;
+
+    public PetServiceImpl(PetDao petDao, UserDao userDao) {
+        this.petDao = petDao;
+        this.userDao = userDao;
+    }
 
     @Override
     public List<Pet> findAll() {
