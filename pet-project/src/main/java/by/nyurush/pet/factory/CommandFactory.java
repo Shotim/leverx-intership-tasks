@@ -13,6 +13,7 @@ import by.nyurush.pet.controller.command.impl.user.GetAllUsersCommand;
 import by.nyurush.pet.controller.command.impl.user.GetUserByIdCommand;
 import by.nyurush.pet.controller.command.impl.user.SaveUserCommand;
 import by.nyurush.pet.exception.CommandNotFoundException;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.HashMap;
 import java.util.List;
@@ -23,6 +24,7 @@ import static by.nyurush.pet.util.StringConstants.GET;
 import static by.nyurush.pet.util.StringConstants.POST;
 import static by.nyurush.pet.util.StringConstants.PUT;
 
+@Slf4j
 public class CommandFactory {
 
     private static final Map<String, Command> commands = new HashMap<>();
@@ -56,10 +58,10 @@ public class CommandFactory {
                 || List.of(GET, POST, PUT, DELETE)
                 .contains(commandName)) {
 
-            throw new CommandNotFoundException("Command " + commandName + " not found");
+            log.warn("Command " + commandName + " not found");
+            throw new CommandNotFoundException();
         }
         return commands.get(commandName);
     }
-
 
 }

@@ -6,6 +6,7 @@ import by.nyurush.pet.entity.Dog;
 import by.nyurush.pet.entity.Pet;
 import by.nyurush.pet.entity.User;
 import by.nyurush.pet.exception.DaoException;
+import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
@@ -15,6 +16,7 @@ import java.util.Optional;
 
 import static by.nyurush.pet.util.HibernateUtil.getSessionFactory;
 
+@Slf4j
 public class PetDaoImpl implements PetDao {
 
     @Override
@@ -29,6 +31,7 @@ public class PetDaoImpl implements PetDao {
             if (transaction != null) {
                 transaction.rollback();
             }
+            log.warn("In PetDaoImpl: cannot save pet {}", pet);
             throw new DaoException("Cannot save pet");
         }
     }
@@ -44,6 +47,7 @@ public class PetDaoImpl implements PetDao {
             if (transaction != null) {
                 transaction.rollback();
             }
+            log.warn("In PetDaoImpl: cannot delete pet {}", pet);
             throw new DaoException("Cannot delete pet");
         }
     }
@@ -53,6 +57,7 @@ public class PetDaoImpl implements PetDao {
         try (Session session = getSessionFactory().openSession()) {
             return session.createQuery("from Pet", Pet.class).getResultList();
         } catch (Exception e) {
+            log.warn("In PetDaoImpl: cannot find pets");
             throw new DaoException("Cannot find all pets");
         }
     }
@@ -63,6 +68,7 @@ public class PetDaoImpl implements PetDao {
             Pet pet = session.get(Pet.class, id);
             return Optional.ofNullable(pet);
         } catch (Exception e) {
+            log.warn("In PetDaoImpl: cannot find pet by id: {}", id);
             throw new DaoException("Cannot find pet by id");
         }
     }
@@ -72,6 +78,7 @@ public class PetDaoImpl implements PetDao {
         try (Session session = getSessionFactory().openSession()) {
             return session.createQuery("from Cat", Cat.class).getResultList();
         } catch (Exception e) {
+            log.warn("In PetDaoImpl: cannot find cats");
             throw new DaoException("Cannot find all cats");
         }
     }
@@ -81,6 +88,7 @@ public class PetDaoImpl implements PetDao {
         try (Session session = getSessionFactory().openSession()) {
             return session.createQuery("from Dog", Dog.class).getResultList();
         } catch (Exception e) {
+            log.warn("In PetDaoImpl: cannot find dogs");
             throw new DaoException("Cannot find all dogs");
         }
     }
@@ -95,6 +103,7 @@ public class PetDaoImpl implements PetDao {
 
             return q.getResultList();
         } catch (Exception e) {
+            log.warn("In PetDaoImpl: cannot find pets by user: {}", user);
             throw new DaoException("Cannot find all pets by user");
         }
     }

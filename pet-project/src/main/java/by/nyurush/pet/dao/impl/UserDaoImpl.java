@@ -4,12 +4,14 @@ import by.nyurush.pet.dao.UserDao;
 import by.nyurush.pet.entity.User;
 import by.nyurush.pet.exception.DaoException;
 import by.nyurush.pet.util.HibernateUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 public class UserDaoImpl implements UserDao {
 
     @Override
@@ -24,6 +26,7 @@ public class UserDaoImpl implements UserDao {
             if (transaction != null) {
                 transaction.rollback();
             }
+            log.warn("In UserDaoImpl: cannot save user {}", user);
             throw new DaoException("Cannot save user");
         }
     }
@@ -39,6 +42,7 @@ public class UserDaoImpl implements UserDao {
             if (transaction != null) {
                 transaction.rollback();
             }
+            log.warn("In UserDaoImpl: cannot delete user {}", user);
             throw new DaoException("Cannot delete user");
         }
     }
@@ -48,6 +52,7 @@ public class UserDaoImpl implements UserDao {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             return session.createQuery("from User", User.class).getResultList();
         } catch (Exception e) {
+            log.warn("In UserDaoImpl: cannot find users");
             throw new DaoException("Cannot find all users");
         }
     }
@@ -58,6 +63,7 @@ public class UserDaoImpl implements UserDao {
             User user = session.get(User.class, id);
             return Optional.ofNullable(user);
         } catch (Exception e) {
+            log.warn("In UserDaoImpl: cannot find user by id: {}", id);
             throw new DaoException("Cannot find user by id");
         }
     }
