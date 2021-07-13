@@ -1,6 +1,6 @@
-package by.nyurush.pet.dao.impl;
+package by.nyurush.pet.repository.impl;
 
-import by.nyurush.pet.dao.PetDao;
+import by.nyurush.pet.repository.PetRepository;
 import by.nyurush.pet.entity.Cat;
 import by.nyurush.pet.entity.Dog;
 import by.nyurush.pet.entity.Pet;
@@ -17,7 +17,7 @@ import java.util.Optional;
 import static by.nyurush.pet.util.HibernateUtil.getSessionFactory;
 
 @Slf4j
-public class PetDaoImpl implements PetDao {
+public class PetRepositoryImpl implements PetRepository {
 
     @Override
     public Pet save(Pet pet) {

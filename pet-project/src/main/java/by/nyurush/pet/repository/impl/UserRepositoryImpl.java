@@ -1,9 +1,8 @@
-package by.nyurush.pet.dao.impl;
+package by.nyurush.pet.repository.impl;
 
-import by.nyurush.pet.dao.UserDao;
+import by.nyurush.pet.repository.UserRepository;
 import by.nyurush.pet.entity.User;
 import by.nyurush.pet.exception.DaoException;
-import by.nyurush.pet.util.HibernateUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -11,13 +10,15 @@ import org.hibernate.Transaction;
 import java.util.List;
 import java.util.Optional;
 
+import static by.nyurush.pet.util.HibernateUtil.getSessionFactory;
+
 @Slf4j
-public class UserDaoImpl implements UserDao {
+public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public User save(User user) {
         Transaction transaction = null;
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
             session.saveOrUpdate(user);
             transaction.commit();
@@ -34,7 +35,7 @@ public class UserDaoImpl implements UserDao {
     @Override
     public void delete(User user) {
         Transaction transaction = null;
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
             session.delete(user);
             transaction.commit();
@@ -49,7 +50,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public List<User> findAll() {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = getSessionFactory().openSession()) {
             return session.createQuery("from User", User.class).getResultList();
         } catch (Exception e) {
             log.warn("In UserDaoImpl: cannot find users");
@@ -59,7 +60,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public Optional<User> findById(Long id) {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = getSessionFactory().openSession()) {
             User user = session.get(User.class, id);
             return Optional.ofNullable(user);
         } catch (Exception e) {

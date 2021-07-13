@@ -1,9 +1,9 @@
 package by.nyurush.pet.factory;
 
-import by.nyurush.pet.dao.PetDao;
-import by.nyurush.pet.dao.UserDao;
-import by.nyurush.pet.dao.impl.PetDaoImpl;
-import by.nyurush.pet.dao.impl.UserDaoImpl;
+import by.nyurush.pet.repository.PetRepository;
+import by.nyurush.pet.repository.UserRepository;
+import by.nyurush.pet.repository.impl.PetRepositoryImpl;
+import by.nyurush.pet.repository.impl.UserRepositoryImpl;
 import by.nyurush.pet.service.PetService;
 import by.nyurush.pet.service.UserService;
 import by.nyurush.pet.service.impl.PetServiceImpl;
@@ -19,11 +19,11 @@ public class BeanFactory {
     }
 
     static {
-        UserDao userDao = new UserDaoImpl();
-        PetDao petDao = new PetDaoImpl();
-        userService = new UserServiceImpl(userDao);
+        UserRepository userRepository = new UserRepositoryImpl();
+        PetRepository petRepository = new PetRepositoryImpl();
+        userService = new UserServiceImpl(userRepository);
         petService = new PetServiceImpl(
-                petDao, userDao
+                petRepository, userRepository
         );
     }
 

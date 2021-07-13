@@ -1,7 +1,7 @@
 package by.nyurush.pet.service.impl;
 
-import by.nyurush.pet.dao.PetDao;
-import by.nyurush.pet.dao.UserDao;
+import by.nyurush.pet.repository.PetRepository;
+import by.nyurush.pet.repository.UserRepository;
 import by.nyurush.pet.entity.Cat;
 import by.nyurush.pet.entity.Dog;
 import by.nyurush.pet.entity.Pet;
@@ -13,32 +13,32 @@ import java.util.List;
 
 public class PetServiceImpl implements PetService {
 
-    private final PetDao petDao;
-    private final UserDao userDao;
+    private final PetRepository petRepository;
+    private final UserRepository userRepository;
 
-    public PetServiceImpl(PetDao petDao, UserDao userDao) {
-        this.petDao = petDao;
-        this.userDao = userDao;
+    public PetServiceImpl(PetRepository petRepository, UserRepository userRepository) {
+        this.petRepository = petRepository;
+        this.userRepository = userRepository;
     }
 
     @Override
     public List<Pet> findAll() {
-        return petDao.findAll();
+        return petRepository.findAll();
     }
 
     @Override
     public List<Cat> findAllCats() {
-        return petDao.findAllCats();
+        return petRepository.findAllCats();
     }
 
     @Override
     public List<Dog> findAllDogs() {
-        return petDao.findAllDogs();
+        return petRepository.findAllDogs();
     }
 
     @Override
     public Pet findById(Long id) {
-        return petDao.findById(id)
+        return petRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(
                         "Pet with id " + id + " not found."
                 ));
@@ -46,24 +46,24 @@ public class PetServiceImpl implements PetService {
 
     @Override
     public List<Pet> findAllByUser(Long userId) {
-        User user = userDao.findById(userId)
+        User user = userRepository.findById(userId)
                 .orElseThrow(() -> new EntityNotFoundException(
                         "User with id " + userId + " not found"
                 ));
-        return petDao.findAllByUser(user);
+        return petRepository.findAllByUser(user);
     }
 
     @Override
     public Pet save(Pet pet) {
-        return petDao.save(pet);
+        return petRepository.save(pet);
     }
 
     @Override
     public void delete(Long id) {
-        Pet pet = petDao.findById(id)
+        Pet pet = petRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(
                         "User with id " + id + " not found"
                 ));
-        petDao.delete(pet);
+        petRepository.delete(pet);
     }
 }

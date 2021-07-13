@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import static by.nyurush.pet.factory.BeanFactory.getPetService;
+import static java.lang.Long.parseLong;
 
 public class DeletePetCommand implements Command {
 
@@ -14,6 +15,6 @@ public class DeletePetCommand implements Command {
         String path = req.getRequestURI();
         String id = path.substring(path.lastIndexOf('/') + 1);
 
-        getPetService().delete(Long.parseLong(id));
+        getPetService().delete(parseLong(id));
     }
 }

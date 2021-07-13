@@ -1,4 +1,4 @@
-package by.nyurush.pet.dao;
+package by.nyurush.pet.repository;
 
 import by.nyurush.pet.entity.Cat;
 import by.nyurush.pet.entity.Dog;
@@ -8,7 +8,7 @@ import by.nyurush.pet.entity.User;
 import java.util.List;
 import java.util.Optional;
 
-public interface PetDao {
+public interface PetRepository {
 
     Pet save(Pet pet);
 

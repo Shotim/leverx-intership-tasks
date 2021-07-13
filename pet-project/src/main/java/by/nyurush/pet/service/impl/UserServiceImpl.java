@@ -1,6 +1,6 @@
 package by.nyurush.pet.service.impl;
 
-import by.nyurush.pet.dao.UserDao;
+import by.nyurush.pet.repository.UserRepository;
 import by.nyurush.pet.entity.User;
 import by.nyurush.pet.exception.EntityNotFoundException;
 import by.nyurush.pet.service.UserService;
@@ -9,15 +9,15 @@ import java.util.List;
 
 public class UserServiceImpl implements UserService {
 
-    private final UserDao userDao;
+    private final UserRepository userRepository;
 
-    public UserServiceImpl(UserDao userDao) {
-        this.userDao = userDao;
+    public UserServiceImpl(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
     @Override
     public User findById(Long id) {
-        return userDao.findById(id)
+        return userRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(
                         "User with id " + id + " not found.")
                 );
@@ -25,19 +25,19 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> findAll() {
-        return userDao.findAll();
+        return userRepository.findAll();
     }
 
     @Override
     public User save(User user) {
-        return userDao.save(user);
+        return userRepository.save(user);
     }
 
     @Override
     public void delete(Long id) {
-        User user = userDao.findById(id).orElseThrow(() -> new EntityNotFoundException(
+        User user = userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(
                 "User with id " + id + " not found.")
         );
-        userDao.delete(user);
+        userRepository.delete(user);
     }
 }
