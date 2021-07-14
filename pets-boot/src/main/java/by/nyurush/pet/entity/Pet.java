@@ -11,6 +11,7 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.Min;
 
 @Data
 @Entity
@@ -24,6 +25,7 @@ public abstract class Pet {
 
     protected String name;
 
+    @Min(0)
     protected Integer age;
 
     @ManyToOne

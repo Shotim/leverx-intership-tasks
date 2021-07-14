@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
 
 @Data
 @Entity
@@ -19,6 +20,7 @@ public class User {
 
     private String name;
 
+    @Email
     private String email;
 
 }

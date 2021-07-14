@@ -8,6 +8,7 @@ import by.nyurush.pet.service.PetService;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import lombok.RequiredArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,11 +18,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
 @RequestMapping("/pets")
 @RequiredArgsConstructor
+@Validated
 public class PetController {
 
     private final PetService petService;
@@ -47,7 +50,7 @@ public class PetController {
     }
 
     @PostMapping
-    public Pet savePet(@RequestBody final Object pet) {
+    public Pet savePet(@RequestBody @Valid final Object pet) {
         Gson gson = new GsonBuilder()
                 .registerTypeAdapter(Pet.class, new PetAdapter())
                 .create();
