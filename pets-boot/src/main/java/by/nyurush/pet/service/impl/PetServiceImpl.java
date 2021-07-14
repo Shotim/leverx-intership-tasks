@@ -1,9 +1,7 @@
 package by.nyurush.pet.service.impl;
 
 import by.nyurush.pet.entity.Cat;
-import by.nyurush.pet.entity.CatBreed;
 import by.nyurush.pet.entity.Dog;
-import by.nyurush.pet.entity.DogBreed;
 import by.nyurush.pet.entity.Pet;
 import by.nyurush.pet.repository.CatRepository;
 import by.nyurush.pet.repository.DogRepository;

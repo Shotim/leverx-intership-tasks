@@ -39,5 +39,4 @@ public class PetAdapter implements JsonSerializer<Pet>, JsonDeserializer<Pet> {
         return result;
     }
 
-
 }

@@ -1,9 +1,9 @@
 package by.nyurush.pet.controller;
 
-import by.nyurush.pet.entity.adapter.PetAdapter;
 import by.nyurush.pet.entity.Cat;
 import by.nyurush.pet.entity.Dog;
 import by.nyurush.pet.entity.Pet;
+import by.nyurush.pet.entity.adapter.PetAdapter;
 import by.nyurush.pet.service.PetService;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -60,7 +60,7 @@ public class PetController {
         return petService.save(petToSave);
     }
 
-    @PutMapping ("/{id}")
+    @PutMapping("/{id}")
     public Pet updatePet(@PathVariable final Long id,
                          @RequestBody final Object pet) {
         Gson gson = new GsonBuilder()
