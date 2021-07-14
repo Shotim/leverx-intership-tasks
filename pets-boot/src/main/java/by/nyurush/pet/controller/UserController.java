@@ -30,29 +30,29 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public User getUserById(@PathVariable Long id) {
+    public User getUserById(@PathVariable final Long id) {
         return userService.findById(id);
     }
 
     @PostMapping
-    public User saveUser(@RequestBody User user) {
+    public User saveUser(@RequestBody final User user) {
         return userService.save(user);
     }
 
     @PutMapping("/{id}")
-    public User updateUser(@PathVariable Long id,
-                              @RequestBody User user) {
+    public User updateUser(@PathVariable final Long id,
+                              @RequestBody final User user) {
         user.setId(id);
         return userService.save(user);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteUser(@PathVariable Long id) {
+    public void deleteUser(@PathVariable final Long id) {
         userService.deleteById(id);
     }
 
     @GetMapping("/{id}/pets")
-    public List<Pet> findAllPetsByUser(@PathVariable Long id) {
+    public List<Pet> findAllPetsByUser(@PathVariable final Long id) {
         return petService.findAllByUserId(id);
     }
 

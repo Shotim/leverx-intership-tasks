@@ -42,12 +42,12 @@ public class PetController {
     }
 
     @GetMapping("/{id}")
-    public Pet findPetById(@PathVariable Long id) {
+    public Pet findPetById(@PathVariable final Long id) {
         return petService.findById(id);
     }
 
     @PostMapping
-    public Pet savePet(@RequestBody Object pet) {
+    public Pet savePet(@RequestBody final Object pet) {
         Gson gson = new GsonBuilder()
                 .registerTypeAdapter(Pet.class, new PetAdapter())
                 .create();
@@ -58,8 +58,8 @@ public class PetController {
     }
 
     @PutMapping ("/{id}")
-    public Pet updatePet(@PathVariable Long id,
-                         @RequestBody Object pet) {
+    public Pet updatePet(@PathVariable final Long id,
+                         @RequestBody final Object pet) {
         Gson gson = new GsonBuilder()
                 .registerTypeAdapter(Pet.class, new PetAdapter())
                 .create();
@@ -71,7 +71,7 @@ public class PetController {
     }
 
     @DeleteMapping("/{id}")
-    public void deletePet(@PathVariable Long id) {
+    public void deletePet(@PathVariable final Long id) {
         petService.deleteById(id);
     }
 
