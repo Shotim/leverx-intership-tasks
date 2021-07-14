@@ -34,7 +34,7 @@ public class PetController {
         return petService.findAll();
     }
 
-    @GetMapping("/cats")
+    @GetMapping("/cats")!!!
     public List<Cat> findAllCats() {
         return petService.findAllCats();
     }
