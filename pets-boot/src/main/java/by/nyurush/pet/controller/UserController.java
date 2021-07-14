@@ -1,10 +1,10 @@
 package by.nyurush.pet.controller;
 
-import by.nyurush.pet.dto.UserDto;
+import by.nyurush.pet.entity.Pet;
 import by.nyurush.pet.entity.User;
+import by.nyurush.pet.service.PetService;
 import by.nyurush.pet.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,38 +22,38 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
-    private final ModelMapper modelMapper;
+    private final PetService petService;
 
     @GetMapping
-    public List<UserDto> getAllUsers() {
-        List<User> users = userService.findAll();
-        return users.stream()
-                .map(user -> modelMapper.map(user, UserDto.class))
-                .toList();
+    public List<User> getAllUsers() {
+        return userService.findAll();
     }
 
     @GetMapping("/{id}")
-    public UserDto getUserById(@PathVariable Long id) {
-        return modelMapper.map(userService.findById(id), UserDto.class);
+    public User getUserById(@PathVariable Long id) {
+        return userService.findById(id);
     }
 
     @PostMapping
-    public UserDto saveUser(@RequestBody UserDto userDto) {
-        User user = modelMapper.map(userDto, User.class);
-        return modelMapper.map(userService.save(user), UserDto.class);
+    public User saveUser(@RequestBody User user) {
+        return userService.save(user);
     }
 
     @PutMapping("/{id}")
-    public UserDto updateUser(@PathVariable Long id,
-                              @RequestBody UserDto userDto) {
-        userDto.setId(id);
-        User user = modelMapper.map(userDto, User.class);
-        return modelMapper.map(userService.save(user), UserDto.class);
+    public User updateUser(@PathVariable Long id,
+                              @RequestBody User user) {
+        user.setId(id);
+        return userService.save(user);
     }
 
     @DeleteMapping("/{id}")
     public void deleteUser(@PathVariable Long id) {
         userService.deleteById(id);
+    }
+
+    @GetMapping("/{id}/pets")
+    public List<Pet> findAllPetsByUser(@PathVariable Long id) {
+        return petService.findAllByUserId(id);
     }
 
 }

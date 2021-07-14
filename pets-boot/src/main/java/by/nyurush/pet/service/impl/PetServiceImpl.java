@@ -45,13 +45,8 @@ public class PetServiceImpl implements PetService {
     }
 
     @Override
-    public List<Cat> findAllCatsByCatBreed(CatBreed catBreed) {
-        return catRepository.findAllByCatBreed(catBreed);
-    }
-
-    @Override
-    public List<Dog> findAllDogsByCatBreed(DogBreed dogBreed) {
-        return dogRepository.findAllByDogBreed(dogBreed);
+    public List<Pet> findAllByUserId(Long userId) {
+        return petRepository.findAllByUser_Id(userId);
     }
 
     @Override

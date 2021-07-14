@@ -1,4 +1,4 @@
-package by.nyurush.pet.dto;
+package by.nyurush.pet.entity.adapter;
 
 
 import by.nyurush.pet.entity.Pet;
