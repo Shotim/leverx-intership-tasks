@@ -1,0 +1,8 @@
+package by.nyurush.pet.exception;
+
+public class EntityNotFoundException extends RuntimeException {
+
+    public EntityNotFoundException() {
+        super();
+    }
+}
